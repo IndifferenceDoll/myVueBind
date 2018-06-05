@@ -11,7 +11,7 @@
     <body>
         <div id="app">
             <form>
-                <input type="text" v-model="number"/>
+                <input type="text" v-model="number" />
                 <button type="button" v-click="increment">增加</button>
             </form>
             <p v-bind="number"></p>
@@ -38,11 +38,9 @@
 
                 this.update()
             }
-
             Watcher.prototype.update = function(){
                 this.el[this.nativeVal] = this.vm.$data[this.key]
             }
-
             myVue.prototype._obsever = function(data){
                 let _this = this
                 Object.keys(data).forEach(function(key){
@@ -52,8 +50,7 @@
                             _this._obsever(value)
                         }
                         _this._binding[key] = []
-                        let binding = _this._binding[key]
-
+                        let binding =  _this._binding[key]
                         Object.defineProperty(data,key,{
                             enumerable:true,
                             configurable:true,
@@ -61,7 +58,7 @@
                                 return value
                             },
                             set:function(newVal){
-                                if(newVal !== value){
+                                if(value !== newVal){
                                     value = newVal
                                     binding.forEach(function(item){
                                         item.update()
@@ -110,6 +107,7 @@
                     }
                 }
             }
+
             window.onload = function(){
                 new myVue({
                     el:'#app',
