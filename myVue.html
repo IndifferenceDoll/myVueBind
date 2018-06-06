@@ -21,7 +21,7 @@
                 this._init(option)
             }
             myVue.prototype._init = function(options){
-                this.$options = options
+                this.$optioins = options
                 this.$el = document.querySelector(options.el)
                 this.$data = options.data
                 this.$methods = options.methods
@@ -29,6 +29,7 @@
                 this._obsever(this.$data)
                 this._compile(this.$el)
             }
+
             function Watcher(type,el,vm,key,nativeVal){
                 this.type = type
                 this.el = el
@@ -38,6 +39,7 @@
 
                 this.update()
             }
+
             Watcher.prototype.update = function(){
                 this.el[this.nativeVal] = this.vm.$data[this.key]
             }
@@ -50,7 +52,7 @@
                             _this._obsever(value)
                         }
                         _this._binding[key] = []
-                        let binding =  _this._binding[key]
+                        let binding = _this._binding[key]
                         Object.defineProperty(data,key,{
                             enumerable:true,
                             configurable:true,
@@ -69,7 +71,6 @@
                     }
                 })
             }
-
             myVue.prototype._compile = function(el){
                 let _this = this
                 let nodes = el.children
