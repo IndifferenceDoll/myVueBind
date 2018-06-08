@@ -20,8 +20,9 @@
             function myVue(option){
                 this._init(option)
             }
+
             myVue.prototype._init = function(options){
-                this.$optioins = options
+                this.$options = options
                 this.$el = document.querySelector(options.el)
                 this.$data = options.data
                 this.$methods = options.methods
@@ -29,7 +30,6 @@
                 this._obsever(this.$data)
                 this._compile(this.$el)
             }
-
             function Watcher(type,el,vm,key,nativeVal){
                 this.type = type
                 this.el = el
@@ -39,7 +39,6 @@
 
                 this.update()
             }
-
             Watcher.prototype.update = function(){
                 this.el[this.nativeVal] = this.vm.$data[this.key]
             }
@@ -62,7 +61,7 @@
                             set:function(newVal){
                                 if(value !== newVal){
                                     value = newVal
-                                    binding.forEach(function(item){
+                                    _this._binding[key].forEach(function(item){
                                         item.update()
                                     })
                                 }
@@ -108,7 +107,6 @@
                     }
                 }
             }
-
             window.onload = function(){
                 new myVue({
                     el:'#app',
