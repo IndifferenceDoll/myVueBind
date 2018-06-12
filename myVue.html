@@ -16,6 +16,7 @@
             </form>
             <p v-bind="number"></p>
         </div>
+
         <script>
             function myVue(option){
                 this._init(option)
@@ -69,16 +70,14 @@
                     }
                 })
             }
-            
             myVue.prototype._compile = function(el){
                 let _this = this
                 let nodes = el.children
                 for(let i=0;i<nodes.length;i++){
                     let node = nodes[i]
-                    if(node.children.length > 0){
+                    if(node.children.length>0){
                         _this._compile(node)
                     }
-
                     if(node.hasAttribute('v-click')){
                         let attrVal = node.getAttribute('v-click')
                         node.onclick = _this.$methods[attrVal].bind(_this.$data)
@@ -93,7 +92,7 @@
                             'value'
                         ))
                         node.addEventListener('input',function(){
-                            this.$data[attrVal] = node.value
+                            _this.$data[attrVal] = node.value
                         })
                     }
                     if(node.hasAttribute('v-bind')){
@@ -108,7 +107,6 @@
                     }
                 }
             }
-
             window.onload = function(){
                 new myVue({
                     el:'#app',
