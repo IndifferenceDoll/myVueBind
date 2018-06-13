@@ -2,11 +2,11 @@
 <html>
     <head>
         <title>myVue</title>
-        <style>
-            #app{
-                text-align: center;
-            }
-        </style>
+            <style>
+                #app{
+                    text-align: center;
+                }
+            </style>
     </head>
     <body>
         <div id="app">
@@ -16,11 +16,11 @@
             </form>
             <p v-bind="number"></p>
         </div>
-
         <script>
             function myVue(option){
                 this._init(option)
             }
+
             myVue.prototype._init = function(options){
                 this.$options = options
                 this.$el = document.querySelector(options.el)
@@ -30,6 +30,7 @@
                 this._obsever(this.$data)
                 this._compile(this.$el)
             }
+
             function Watcher(type,el,vm,key,nativeVal){
                 this.type = type
                 this.el = el
@@ -39,9 +40,11 @@
 
                 this.update()
             }
+
             Watcher.prototype.update = function(){
                 this.el[this.nativeVal] = this.vm.$data[this.key]
             }
+
             myVue.prototype._obsever = function(data){
                 let _this = this
                 Object.keys(data).forEach(function(key){
@@ -52,6 +55,7 @@
                         }
                         _this._binding[key] = []
                         let binding = _this._binding[key]
+
                         Object.defineProperty(data,key,{
                             enumerable:true,
                             configurable:true,
@@ -70,12 +74,13 @@
                     }
                 })
             }
+
             myVue.prototype._compile = function(el){
                 let _this = this
                 let nodes = el.children
                 for(let i=0;i<nodes.length;i++){
                     let node = nodes[i]
-                    if(node.children.length>0){
+                    if(node.children.length > 0){
                         _this._compile(node)
                     }
                     if(node.hasAttribute('v-click')){
@@ -107,6 +112,7 @@
                     }
                 }
             }
+
             window.onload = function(){
                 new myVue({
                     el:'#app',
