@@ -2,30 +2,26 @@
 <html>
     <head>
         <title>myVue</title>
-            <style>
-                #app{
-                    text-align: center;
-                }
-            </style>
+        <style>
+            #app{
+                text-align: center;
+            }
+        </style>
     </head>
     <body>
         <div id="app">
             <form>
-                <input type="text" v-model="number" />
-                <button type="button" v-click="increment">增加</button>
+                <input type="text" v-model="number"/>
+                <button type="button" v-click="increment">增加</button>            
             </form>
             <p v-bind="number"></p>
         </div>
         <script>
             function myVue(option){
-                this._init(option)
-            }
-
-            myVue.prototype._init = function(options){
-                this.$options = options
-                this.$el = document.querySelector(options.el)
-                this.$data = options.data
-                this.$methods = options.methods
+                this.$option = option
+                this.$el = document.querySelector(option.el)
+                this.$data = option.data
+                this.$methods = option.methods
                 this._binding = {}
                 this._obsever(this.$data)
                 this._compile(this.$el)
@@ -47,7 +43,7 @@
 
             myVue.prototype._obsever = function(data){
                 let _this = this
-                Object.keys(data).forEach(function(key){
+                Object.keys(data).forEach(key=>{
                     if(data.hasOwnProperty(key)){
                         let value = data[key]
                         if(typeof value === 'object'){
@@ -55,7 +51,6 @@
                         }
                         _this._binding[key] = []
                         let binding = _this._binding[key]
-
                         Object.defineProperty(data,key,{
                             enumerable:true,
                             configurable:true,
@@ -63,9 +58,9 @@
                                 return value
                             },
                             set:function(newVal){
-                                if(value !== newVal){
+                                if(newVal !== value){
                                     value = newVal
-                                    binding.forEach(function(item){
+                                    binding.forEach(item=>{
                                         item.update()
                                     })
                                 }
