@@ -11,22 +11,25 @@
     <body>
         <div id="app">
             <form>
-                <input type="text" v-model="number"/>
-                <button type="button" v-click="increment">增加</button>            
+                <input type="text" v-model="number" />
+                <button type="button" v-click="increment">增加</button>
             </form>
             <p v-bind="number"></p>
         </div>
         <script>
             function myVue(option){
-                this.$option = option
-                this.$el = document.querySelector(option.el)
-                this.$data = option.data
-                this.$methods = option.methods
+                this._init(option)
+            }
+            myVue.prototype._init = function(options){
+                this.$options = options
+                this.$el = document.querySelector(options.el)
+                this.$data = options.data
+                this.$methods = options.methods
+
                 this._binding = {}
                 this._obsever(this.$data)
                 this._compile(this.$el)
             }
-
             function Watcher(type,el,vm,key,nativeVal){
                 this.type = type
                 this.el = el
@@ -58,7 +61,7 @@
                                 return value
                             },
                             set:function(newVal){
-                                if(newVal !== value){
+                                if(value !== newVal){
                                     value = newVal
                                     binding.forEach(item=>{
                                         item.update()
