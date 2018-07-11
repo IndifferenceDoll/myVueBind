@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
         <title>myVue</title>
@@ -20,38 +20,33 @@
             function myVue(option){
                 this._init(option)
             }
-
-            myVue.prototype._init = function(option){
-                this.$el = document.querySelector(option.el)
-                this.$data = option.data
-                this.$methods = option.methods
+            myVue.prototype._init = function(options){
+                this.$el = document.querySelector(options.el)
+                this.$methods = options.methods
+                this.$data = options.data
 
                 this._binding = {}
 
                 this._obsever(this.$data)
                 this._compile(this.$el)
             }
-
             function Watcher(type,el,vm,key,nativeVal){
                 this.type = type
                 this.el = el
                 this.vm = vm
                 this.key = key
                 this.nativeVal = nativeVal
-
                 this.update()
             }
-
             Watcher.prototype.update = function(){
                 this.el[this.nativeVal] = this.vm.$data[this.key]
             }
-
             myVue.prototype._obsever = function(data){
                 let _this = this
                 Object.keys(data).forEach(key=>{
                     if(data.hasOwnProperty(key)){
                         let value = data[key]
-                        if(typeof value === 'Object'){
+                        if(typeof value === 'object'){
                             _this._obsever(value)
                         }
                         _this._binding[key] = []
@@ -63,7 +58,7 @@
                                 return value
                             },
                             set:function(newVal){
-                                if(newVal !== value){
+                                if(value !== newVal){
                                     value = newVal
                                     binding.forEach(item=>{
                                         item.update()
@@ -74,7 +69,6 @@
                     }
                 })
             }
-
             myVue.prototype._compile = function(el){
                 let _this = this
                 let nodes = el.children
